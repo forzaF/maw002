@@ -113,6 +113,9 @@ class Wallet extends Component {
                                         style={{height: 33, width: 33, borderRadius: 33/2 }}
                                    />
                             </View>
+                            <View>
+                                
+                            </View>
                         </View> 
                     </View> 
                     </LinearGradient>
