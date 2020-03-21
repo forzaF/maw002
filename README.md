@@ -1,2 +1,1 @@
-# maw
-# maw002
+# MyAnyWork Android Vendor Client
