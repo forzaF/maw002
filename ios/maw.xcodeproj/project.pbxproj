@@ -19,7 +19,6 @@
 		2DCD954D1E0B4F2C00145EB5 /* mawTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* mawTests.m */; };
 		3B34FC3C0DF64CCDBBA0AE10 /* antfill.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6378D23B37C54210939C993C /* antfill.ttf */; };
 		3B7B612BFAF5AE30D3D8C811 /* libPods-maw-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B25AEEF38F68E7410E26EA9 /* libPods-maw-tvOSTests.a */; };
-		6D40B107435E4FD5A90F8234 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3E821A9149134BACA08E3592 /* Ionicons.ttf */; };
 		95DAD5A5A0784B506916269D /* libPods-mawTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 487A0EF84EE656790255D581 /* libPods-mawTests.a */; };
 		BFE31F7AD164D22813A75B0A /* libPods-maw-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BE51590536D4DB30786FE8F /* libPods-maw-tvOS.a */; };
 		EABADECD0E9348C8835D4E00 /* antoutline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55FDC67D1A7F4AC4A88F04A4 /* antoutline.ttf */; };
@@ -59,12 +58,12 @@
 		1CE494E9407FD6906F4E396D /* Pods-maw-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-maw-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-maw-tvOSTests/Pods-maw-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* maw-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "maw-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* maw-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "maw-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3E821A9149134BACA08E3592 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-ionicons/fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		487A0EF84EE656790255D581 /* libPods-mawTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mawTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		55FDC67D1A7F4AC4A88F04A4 /* antoutline.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = antoutline.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; };
+		55FDC67D1A7F4AC4A88F04A4 /* antoutline.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antoutline.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; };
 		5B25AEEF38F68E7410E26EA9 /* libPods-maw-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-maw-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6378D23B37C54210939C993C /* antfill.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = antfill.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; };
+		6378D23B37C54210939C993C /* antfill.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antfill.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; };
 		9BE51590536D4DB30786FE8F /* libPods-maw-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-maw-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5514264242443A400F84D9A /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		B72289BF202BAD844BB1C988 /* Pods-maw.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-maw.debug.xcconfig"; path = "Target Support Files/Pods-maw/Pods-maw.debug.xcconfig"; sourceTree = "<group>"; };
 		BC1DEAAC1B5B077B66321219 /* Pods-maw.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-maw.release.xcconfig"; path = "Target Support Files/Pods-maw/Pods-maw.release.xcconfig"; sourceTree = "<group>"; };
 		CF87EECD283EC5B6E31B141C /* Pods-maw-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-maw-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-maw-tvOS/Pods-maw-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -209,7 +208,7 @@
 			children = (
 				6378D23B37C54210939C993C /* antfill.ttf */,
 				55FDC67D1A7F4AC4A88F04A4 /* antoutline.ttf */,
-				3E821A9149134BACA08E3592 /* Ionicons.ttf */,
+				A5514264242443A400F84D9A /* Ionicons.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -357,7 +356,6 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				3B34FC3C0DF64CCDBBA0AE10 /* antfill.ttf in Resources */,
 				EABADECD0E9348C8835D4E00 /* antoutline.ttf in Resources */,
-				6D40B107435E4FD5A90F8234 /* Ionicons.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
