@@ -192,22 +192,24 @@ class RenderRecievedBidList extends Component {
   constructor(props) {
     super(props);
   }
-  activeBidsList = activeBids;
+  activeBidsList = this.props.bidData.bid;
   activeBidsforRender;
 
   render() {
-    this.activeBidsList.map(item => {
-      if (item.bidDiretion === "in") {
-        this.activeBidsforRender = item.bids;
-      }
-    });
+    // this.activeBidsList.map(item => {
+    if (this.activeBidsList.bidDiretion === "in") {
+      this.activeBidsforRender = this.activeBidsList.bids;
+    }
+    // });
     return (
+      // <Text>{this.activeBidsList}</Text>
       // horizontal flatlist showing recieved bids
       <FlatList
         data={this.activeBidsforRender}
         renderItem={({ item, job }) => RenderRecievedBid(item, job)}
         keyExtractor={item => item.id}
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
       />
     );
   }

@@ -5,7 +5,7 @@ import ActiveBids from "./active-bids";
 
 import RBSheet from "react-native-raw-bottom-sheet";
 
-import { DATA } from "../components/dev/data";
+import { JOB_DATA } from "../components/dev/data";
 import ActiveJob from "./active-jobs-list-item";
 
 function RenderActiveJobs(job, title) {
@@ -48,7 +48,7 @@ class Feed extends Component {
       return (
         <View style={styles.container}>
           <SectionList
-            sections={DATA}
+            sections={JOB_DATA}
             keyExtractor={(item, index) => item + index}
             renderItem={({ item, section: { title }, index }) => (
               <RenderActiveJobs data={item} title={title} index={index} />

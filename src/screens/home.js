@@ -27,6 +27,8 @@ import Feed from "../components/feed";
 // Data
 import { activeJobs, activeBids } from "../components/dev/data";
 
+import MAWHeader from "../components/header";
+
 let indicator;
 
 class Home extends Component {
@@ -37,6 +39,9 @@ class Home extends Component {
       index: 0
     };
   }
+  static navigationOptions = {
+    headerMode: "none"
+  };
 
   componentDidMount() {
     // this.setState = {
@@ -48,10 +53,6 @@ class Home extends Component {
 
   openModal = () => {
     this.props.navigation.navigate("MyModal");
-  };
-
-  openNotifications = () => {
-    this.props.navigation.navigate("Notifications");
   };
 
   renderContent = () => {
@@ -116,39 +117,13 @@ class Home extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <Header
-          style={[{ borderBottomWidth: 0 }, { backgroundColor: "#F2F2F9" }]}
-        >
-          {/* Feed button */}
-          <Left>
-            <TouchableOpacity onPress={this.openModal}>
-              <GradientIcon></GradientIcon>
-            </TouchableOpacity>
-          </Left>
-          <Right style={{ paddingRight: 18 }}>
-            <Icon
-              name="chat-bubble-outline"
-              size={25}
-              color={"rgba(0,0,0,.65)"}
-              style={{
-                transform: [{ scaleX: -1 }],
-                alignSelf: "flex-start",
-                marginTop: 17
-              }}
-              onPress={this.openNotifications}
-            ></Icon>
-            <View style={{ marginLeft: "10%", paddingTop: "5%" }}>
-              <Image
-                source={require("../dev_assests/img/primary_user.jpg")}
-                style={{ height: 38, width: 38, borderRadius: 38 / 2 }}
-              />
-            </View>
-          </Right>
-        </Header>
-        {/* Search component */}
-        <Search />
-        {/* Bottom sheet component */}
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <MAWHeader props={this.props} />
+          {/* Search component */}
+          <Search props={this.props} />
+          {/* Bottom sheet component */}
+        </SafeAreaView>
         <BottomSheet
           snapPoints={["10%", "80%"]}
           renderContent={this.renderContent}
