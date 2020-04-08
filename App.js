@@ -9,13 +9,14 @@ import Home from "./src/screens/home";
 import Profile from "./src/screens/profile";
 import Wallet from "./src/screens/wallet";
 import SearchForm from "./src/screens/search-form";
+import Jobs from "./src/screens/jobs";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/Foundation";
 import { IconFill, IconOutline } from "@ant-design/icons-react-native";
 
 const Stack = createStackNavigator();
-const Tab = createMaterialTopTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const CouldIt = createStackNavigator();
 
@@ -30,19 +31,19 @@ function mawHome() {
           borderTopColor: "transparent",
           borderTopWidth: 0,
           backgroundColor: "#fff",
-          paddingBottom: Platform.OS === "ios" ? 20 : 0
+          paddingBottom: Platform.OS === "ios" ? 20 : 0,
           // flex: 1
         },
         indicatorStyle: {
           // flex: 1,
           width: 0,
           justifyContent: "center",
-          alignSelf: "center"
+          alignSelf: "center",
         },
         showLabel: false,
         showIcon: true,
         headerMode: "none",
-        headerShown: false
+        headerShown: false,
       }}
     >
       <Tab.Screen
@@ -52,7 +53,17 @@ function mawHome() {
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
             <Icon name={"home"} size={29} color={color} />
-          )
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Jobs"
+        component={Jobs}
+        options={{
+          tabBarLabel: "Jobs",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name={"ios-briefcase"} size={29} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -62,10 +73,9 @@ function mawHome() {
           tabBarLabel: "Wallet",
           tabBarIcon: ({ color }) => (
             <Ionicons name={"ios-card"} size={29} color={color} />
-          )
+          ),
         }}
       />
-      {/* <Tab.Screen name="Profile" component={Profile} /> */}
     </Tab.Navigator>
   );
 }
@@ -81,7 +91,7 @@ function notificationsScreen({ navigation }) {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "green"
+        backgroundColor: "green",
       }}
     >
       <Text style={{ fontSize: 30 }}>Notifications!</Text>
@@ -94,7 +104,7 @@ function notifications() {
   return (
     <CouldIt.Navigator
       screenOptions={{
-        headerShown: false
+        headerShown: false,
       }}
     >
       <CouldIt.Screen name="CINotifications" component={notificationsScreen} />
@@ -110,7 +120,7 @@ function App() {
           // mode="modal"
           screenOptions={{
             headerShown: false,
-            backgroundColor: "#fff"
+            backgroundColor: "#fff",
           }}
           headerMode={false}
         >
@@ -133,8 +143,8 @@ function App() {
             component={ModalScreen}
             options={{
               style: {
-                backgroundColor: "#fff"
-              }
+                backgroundColor: "#fff",
+              },
             }}
           />
           <Stack.Screen name="Notifications" component={notifications} />
