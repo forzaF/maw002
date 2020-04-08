@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   Image,
   SafeAreaView,
-  Alert
+  Alert,
 } from "react-native";
 import { Header, Left, Right } from "native-base";
 
@@ -36,11 +36,11 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      index: 0
+      index: 0,
     };
   }
   static navigationOptions = {
-    headerMode: "none"
+    headerMode: "none",
   };
 
   componentDidMount() {
@@ -82,9 +82,9 @@ class Home extends Component {
             width: 55,
             height: 5,
             borderRadius: 50 / 3,
-            backgroundColor: "#BDBEC8"
+            backgroundColor: "#BDBEC8",
           }}
-        ></View>
+        />
       );
     } else if (this.state.index === 1) {
       return <Icon name="keyboard-arrow-down" size={44} color={"#BDBEC8"} />;
@@ -97,7 +97,7 @@ class Home extends Component {
         backgroundColor: "white",
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        paddingTop: 10
+        paddingTop: 10,
       }}
     >
       {/* Bottom Sheet Header Control Icon */}
@@ -120,6 +120,17 @@ class Home extends Component {
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <SafeAreaView style={{ flex: 1 }}>
           <MAWHeader props={this.props} />
+          <Text
+            style={{
+              fontFamily: "Lato-Bold",
+              fontSize: 22,
+              color: "rgba(0,0,0,.7)",
+              paddingLeft: 18,
+              // fontWeight: "bold",
+            }}
+          >
+            Welcome, Fonts
+          </Text>
           {/* Search component */}
           <Search props={this.props} />
           {/* Bottom sheet component */}
