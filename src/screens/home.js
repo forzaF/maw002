@@ -10,6 +10,7 @@ import {
   Image,
   SafeAreaView,
   Alert,
+  FlatList,
 } from "react-native";
 import { Header, Left, Right } from "native-base";
 
@@ -37,6 +38,41 @@ class Home extends Component {
 
     this.state = {
       index: 0,
+      snapShotData: [
+        {
+          id: "001",
+          job: "spaceship building",
+          type: "Tomorrow, Feb 26",
+          otherUser: "EM-VA-SJ",
+          date: "Tomorrow, Feb 26",
+          color: "#FF6602",
+        },
+        {
+          id: "002",
+          job: "jetfuel making",
+          type: "POSTED",
+          otherUser: "3 bids received",
+          date: "Today, Feb 22",
+          color: "#0176C6",
+          status: "3 bids received",
+        },
+        {
+          id: "003",
+          job: "flight-soundtrack making",
+          type: "ONGOING",
+          otherUser: "BI-DT",
+          color: "#19CC70",
+          status: "3 bids received",
+        },
+        {
+          id: "004",
+          job: "444flight-soundtrack making",
+          type: "ONGOING",
+          otherUser: "444BioSpace Corp",
+          color: "#19CC70",
+          status: "3 bids received",
+        },
+      ],
     };
   }
   static navigationOptions = {
@@ -115,6 +151,136 @@ class Home extends Component {
     }
   };
 
+  arrays = [];
+  size = 2;
+
+  do = () => {
+    while (this.state.snapShotData.length > 0)
+      this.arrays.push(this.state.snapShotData.splice(0, this.size));
+  };
+
+  renderRow(item) {
+    // console.log(item);
+    return (
+      <View style={{ marginLeft: 11, marginTop: 10, marginRight: 20 }}>
+        <View
+          style={{
+            backgroundColor: "white",
+            borderWidth: 0,
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: "Lato-Regular",
+              fontSize: 13,
+              color: "#8F8F8F",
+            }}
+          >
+            {item[0].type}
+          </Text>
+          <View style={{ flexDirection: "row" }}>
+            <View
+              style={{
+                height: 33,
+                width: 33,
+                backgroundColor: item[0].color,
+                marginRight: 7,
+                marginTop: 3,
+              }}
+            />
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                marginBottom: 10,
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "Lato-Bold",
+                  fontSize: 15,
+                  color: "#646464",
+                  alignSelf: "flex-start",
+                }}
+              >
+                {item[0].job}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "OpenSans-Bold",
+                  fontSize: 13,
+                  color: "#7B7B7B",
+                  marginTop: 3,
+                }}
+              >
+                {item[0].otherUser}
+              </Text>
+            </View>
+          </View>
+          {item.length > 1 ? (
+            <View
+              style={{
+                backgroundColor: "white",
+                marginTop: 10,
+                borderWidth: 0,
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "Lato-Regular",
+                  fontSize: 13,
+                  color: "#8F8F8F",
+                }}
+              >
+                {item[1].type}
+              </Text>
+              <View style={{ flexDirection: "row" }}>
+                <View
+                  style={{
+                    height: 33,
+                    width: 33,
+                    backgroundColor: item[1].color,
+                    marginRight: 7,
+                    marginTop: 3,
+                  }}
+                />
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Lato-Bold",
+                      fontSize: 15,
+                      color: "#646464",
+                      alignSelf: "flex-start",
+                    }}
+                  >
+                    {item[1].job}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: "OpenSans-Bold",
+                      fontSize: 13,
+                      color: "#7B7B7B",
+                      marginTop: 3,
+                    }}
+                  >
+                    {item[1].otherUser}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          ) : null}
+        </View>
+      </View>
+    );
+  }
+
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -124,13 +290,24 @@ class Home extends Component {
             style={{
               fontFamily: "Lato-Bold",
               fontSize: 22,
-              color: "rgba(0,0,0,.7)",
+              color: "#4a5a5a",
               paddingLeft: 18,
               // fontWeight: "bold",
             }}
           >
-            Welcome, Fonts
+            Good evening
           </Text>
+          {this.do()}
+          <View style={{ height: 180 }}>
+            <FlatList
+              data={this.arrays}
+              horizontal={true}
+              renderItem={({ item, index }) => this.renderRow(item)}
+              showsHorizontalScrollIndicator={true}
+              keyExtractor={(item) => item.id}
+              style={{ flex: 1, paddingBottom: 0 }}
+            />
+          </View>
           {/* Search component */}
           <Search props={this.props} />
           {/* Bottom sheet component */}
