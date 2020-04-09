@@ -29,8 +29,211 @@ import Feed from "../components/feed";
 import { activeJobs, activeBids } from "../components/dev/data";
 
 import MAWHeader from "../components/header";
+import { ScrollView } from "react-native-gesture-handler";
 
 let indicator;
+
+function ForYouList() {
+  return (
+    <TouchableWithoutFeedback onPress={() => alert("For You Pressed!")}>
+      {/* container */}
+      <View
+        style={{
+          height: 277,
+          width: 204,
+          borderRadius: 18,
+          borderWidth: 1,
+          borderColor: "#979797",
+          marginLeft: 18,
+        }}
+      >
+        {/* <Text></Text> */}
+      </View>
+    </TouchableWithoutFeedback>
+  );
+}
+
+function RenderForYou(props) {
+  return (
+    <View>
+      {/* title */}
+      <Text
+        style={{
+          marginLeft: 10,
+          fontFamily: "Lato-Bold",
+          fontSize: 21,
+          color: "#4A4A4A",
+        }}
+      >
+        For you
+      </Text>
+      <View style={{ marginTop: 18 }}>
+        <FlatList
+          data={[
+            { id: "001", content: "for you one" },
+            { id: "002", content: "for you two" },
+            { id: "003", content: "for you three" },
+          ]}
+          renderItem={(item) => ForYouList(item)}
+          keyExtractor={(item) => item.id}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
+    </View>
+  );
+}
+
+function FeedItems(item) {
+  return (
+    <TouchableWithoutFeedback onPress={() => alert("Feed Item Pressed!")}>
+      <View style={{ flex: 1 }}>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderColor: "#4f4f4f",
+            marginBottom: 2,
+            paddingBottom: 20,
+          }}
+        >
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <View>
+              <Text
+                style={{
+                  fontFamily: "OpenSans-Bold",
+                  fontSize: 13,
+                  color: "#6f6f6f",
+                  marginLeft: 6,
+                  marginTop: 10,
+                }}
+              >
+                {item.item.owner}
+              </Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text
+                  style={{
+                    fontFamily: "OpenSans-Bold",
+                    fontSize: 16,
+                    color: "#4a4a4a",
+                    marginLeft: 6,
+                  }}
+                >
+                  {item.item.job}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: "OpenSans-Regular",
+                    fontSize: 15,
+                    color: "#4a4a4a",
+                    marginLeft: 10,
+                  }}
+                >
+                  {item.item.location}
+                </Text>
+              </View>
+              {/* duration and skills */}
+              <View style={{ flexDirection: "row", marginTop: 6 }}>
+                <Text
+                  style={{
+                    fontFamily: "Lato-Bold",
+                    fontSize: 15,
+                    color: "#6d6d6d",
+                    marginLeft: 7,
+                  }}
+                >
+                  {item.item.duration}
+                </Text>
+                <View style={{ flexDirection: "row", marginLeft: 10 }}>
+                  {item.item.skills.map((skill) => {
+                    console.log(skill);
+                    return (
+                      <Text
+                        style={{
+                          fontFamily: "OpenSans-Regular",
+                          fontSize: 12,
+                          color: "#818181",
+                          marginLeft: 5,
+                        }}
+                      >
+                        {skill}
+                      </Text>
+                    );
+                  })}
+                </View>
+              </View>
+            </View>
+            {/* image */}
+            <View>
+              <View
+                style={{
+                  width: 30,
+                  height: 30,
+                  borderRadius: 15,
+                  backgroundColor: "#004953",
+                  marginRight: 6,
+                  marginTop: 16,
+                }}
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+}
+
+function RenderFeed(props) {
+  return (
+    <View>
+      {/* title */}
+      <Text
+        style={{
+          marginLeft: 10,
+          marginTop: 30,
+          fontFamily: "Lato-Bold",
+          fontSize: 21,
+          color: "#4A4A4A",
+        }}
+      >
+        Feed
+      </Text>
+      <View style={{ marginTop: 10 }}>
+        <FlatList
+          data={[
+            {
+              id: "001",
+              owner: "for you one",
+              duration: "2-4 weeks",
+              skills: ["python", "javascript", "java", "c++"],
+              job: "Full Stack Developer",
+              location: "lagos",
+            },
+            {
+              id: "002",
+              owner: "Jessica ",
+              duration: "1-3 months",
+              skills: ["pastries", "smallchops", "asian", "oriental"],
+              job: "Chef for asian themed party",
+              location: "lagos",
+            },
+            {
+              id: "003",
+              owner: "for you three",
+              duration: "2-4 weeks",
+              skills: ["python", "javascript", "java", "c++"],
+              job: "Full Stack Developer",
+              location: "lagos",
+            },
+          ]}
+          renderItem={(item) => FeedItems(item)}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+    </View>
+  );
+}
 
 class Home extends Component {
   constructor(props) {
@@ -41,8 +244,8 @@ class Home extends Component {
       snapShotData: [
         {
           id: "001",
-          job: "spaceship building",
-          type: "Tomorrow, Feb 26",
+          job: "AR modelling of spaceship build",
+          title: "Tomorrow, Feb 26",
           otherUser: "EM-VA-SJ",
           date: "Tomorrow, Feb 26",
           color: "#FF6602",
@@ -50,7 +253,7 @@ class Home extends Component {
         {
           id: "002",
           job: "jetfuel making",
-          type: "POSTED",
+          title: "POSTED",
           otherUser: "3 bids received",
           date: "Today, Feb 22",
           color: "#0176C6",
@@ -59,7 +262,7 @@ class Home extends Component {
         {
           id: "003",
           job: "flight-soundtrack making",
-          type: "ONGOING",
+          title: "ONGOING",
           otherUser: "BI-DT",
           color: "#19CC70",
           status: "3 bids received",
@@ -67,7 +270,7 @@ class Home extends Component {
         {
           id: "004",
           job: "444flight-soundtrack making",
-          type: "ONGOING",
+          title: "ONGOING",
           otherUser: "444BioSpace Corp",
           color: "#19CC70",
           status: "3 bids received",
@@ -100,12 +303,12 @@ class Home extends Component {
     }
     return (
       <View style={{ backgroundColor: "white", height: "100%" }}>
-        <Feed
+        {/* <Feed
           index={this.state.index}
           indicator={indicator}
           jobData={activeJobs}
           bidData={activeBids}
-        />
+        /> */}
       </View>
     );
   };
@@ -159,124 +362,177 @@ class Home extends Component {
       this.arrays.push(this.state.snapShotData.splice(0, this.size));
   };
 
+  // RenderSnapshot
   renderRow(item) {
     // console.log(item);
     return (
-      <View style={{ marginLeft: 11, marginTop: 10, marginRight: 20 }}>
-        <View
-          style={{
-            backgroundColor: "white",
-            borderWidth: 0,
-          }}
+      // coloumns
+      <View
+        style={{
+          backgroundColor: "white",
+          marginRight: 5,
+          marginLeft: 10,
+          marginTop: 10,
+          width: 200,
+        }}
+      >
+        {/* row item container */}
+        <TouchableWithoutFeedback
+          onPress={() => alert("Pressed!")}
+          style={{ marginBottom: 13 }}
         >
-          <Text
-            style={{
-              fontFamily: "Lato-Regular",
-              fontSize: 13,
-              color: "#8F8F8F",
-            }}
-          >
-            {item[0].type}
-          </Text>
-          <View style={{ flexDirection: "row" }}>
-            <View
+          <View>
+            {/* row item title */}
+            <Text
               style={{
-                height: 33,
-                width: 33,
-                backgroundColor: item[0].color,
-                marginRight: 7,
-                marginTop: 3,
-              }}
-            />
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                marginBottom: 10,
+                fontFamily: "Lato-Regular",
+                fontSize: 13,
+                color: "#8F8F8F",
+                // flexWrap: "nowrap",
               }}
             >
-              <Text
+              {item[0].title}
+            </Text>
+            {/* row item content: image, job, job by/for */}
+            <View style={{ flexDirection: "row", flexWrap: "nowrap" }}>
+              {/* image */}
+              <View
                 style={{
-                  fontFamily: "Lato-Bold",
-                  fontSize: 15,
-                  color: "#646464",
-                  alignSelf: "flex-start",
-                }}
-              >
-                {item[0].job}
-              </Text>
-              <Text
-                style={{
-                  fontFamily: "OpenSans-Bold",
-                  fontSize: 13,
-                  color: "#7B7B7B",
+                  height: 33,
+                  width: 33,
+                  backgroundColor: item[0].color,
+                  marginRight: 7,
                   marginTop: 3,
                 }}
-              >
-                {item[0].otherUser}
-              </Text>
-            </View>
-          </View>
-          {item.length > 1 ? (
-            <View
-              style={{
-                backgroundColor: "white",
-                marginTop: 10,
-                borderWidth: 0,
-              }}
-            >
-              <Text
+              />
+              {/* job details */}
+              <View
                 style={{
-                  fontFamily: "Lato-Regular",
-                  fontSize: 13,
-                  color: "#8F8F8F",
+                  flex: 1,
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  // marginBottom: 10,
+                  flexWrap: "nowrap",
                 }}
               >
-                {item[1].type}
-              </Text>
-              <View style={{ flexDirection: "row" }}>
+                {/* what's the job */}
                 <View
                   style={{
-                    height: 33,
-                    width: 33,
-                    backgroundColor: item[1].color,
-                    marginRight: 7,
-                    marginTop: 3,
-                  }}
-                />
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: "flex-start",
-                    alignItems: "flex-start",
+                    fontFamily: "Lato-Bold",
+                    fontSize: 15,
+                    alignSelf: "flex-start",
+                    height: 18,
                   }}
                 >
                   <Text
+                    numberOfLines={1}
                     style={{
                       fontFamily: "Lato-Bold",
                       fontSize: 15,
                       color: "#646464",
                       alignSelf: "flex-start",
+                      flex: 1,
+                      // height: 10,
                     }}
                   >
-                    {item[1].job}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: "OpenSans-Bold",
-                      fontSize: 13,
-                      color: "#7B7B7B",
-                      marginTop: 3,
-                    }}
-                  >
-                    {item[1].otherUser}
+                    {item[0].job}
                   </Text>
                 </View>
+                {/* who's it for/by? */}
+                <Text
+                  // numberOfLines={1}
+                  style={{
+                    fontFamily: "OpenSans-Bold",
+                    fontSize: 13,
+                    color: "#7B7B7B",
+                    marginTop: 3,
+                    // flex: 1,
+                  }}
+                >
+                  {item[0].otherUser}
+                </Text>
               </View>
             </View>
-          ) : null}
-        </View>
+          </View>
+        </TouchableWithoutFeedback>
+        {item.length > 1 ? (
+          <View
+            style={{
+              backgroundColor: "white",
+              marginTop: 10,
+              borderWidth: 0,
+            }}
+          >
+            <TouchableWithoutFeedback onPress={() => alert("Pressed!")}>
+              <View>
+                {/* title */}
+                <Text
+                  style={{
+                    fontFamily: "Lato-Regular",
+                    fontSize: 13,
+                    color: "#8F8F8F",
+                  }}
+                >
+                  {item[1].title}
+                </Text>
+                {/* job */}
+                <View style={{ flexDirection: "row" }}>
+                  <View
+                    style={{
+                      height: 33,
+                      width: 33,
+                      backgroundColor: item[1].color,
+                      marginRight: 7,
+                      marginTop: 3,
+                    }}
+                  />
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "flex-start",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    {/* job details */}
+                    <View
+                      style={{
+                        fontFamily: "Lato-Bold",
+                        fontSize: 15,
+                        alignSelf: "flex-start",
+                        height: 18,
+                      }}
+                    >
+                      <Text
+                        numberOfLines={1}
+                        style={{
+                          fontFamily: "Lato-Bold",
+                          fontSize: 15,
+                          color: "#646464",
+                          alignSelf: "flex-start",
+                          flex: 1,
+                          height: 16,
+                        }}
+                      >
+                        {item[1].job}
+                      </Text>
+                    </View>
+                    {/* who's it for/by? */}
+                    <Text
+                      style={{
+                        fontFamily: "OpenSans-Bold",
+                        fontSize: 13,
+                        color: "#7B7B7B",
+                        marginTop: 3,
+                      }}
+                    >
+                      {item[1].otherUser}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        ) : null}
       </View>
     );
   }
@@ -285,39 +541,62 @@ class Home extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <SafeAreaView style={{ flex: 1 }}>
-          <MAWHeader props={this.props} />
-          <Text
+          {/* search button */}
+          <View
             style={{
-              fontFamily: "Lato-Bold",
-              fontSize: 22,
-              color: "#4a5a5a",
-              paddingLeft: 18,
-              // fontWeight: "bold",
+              width: 40,
+              height: 40,
+              borderRadius: 20,
+              backgroundColor: "#434",
+              position: "absolute",
+              top: 730,
+              left: 20,
+              zIndex: 1,
             }}
-          >
-            Good evening
-          </Text>
-          {this.do()}
-          <View style={{ height: 180 }}>
-            <FlatList
-              data={this.arrays}
-              horizontal={true}
-              renderItem={({ item, index }) => this.renderRow(item)}
-              showsHorizontalScrollIndicator={true}
-              keyExtractor={(item) => item.id}
-              style={{ flex: 1, paddingBottom: 0 }}
-            />
-          </View>
-          {/* Search component */}
-          <Search props={this.props} />
-          {/* Bottom sheet component */}
+          />
+          <MAWHeader props={this.props} />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{ flex: 1 }}>
+              <Text
+                style={{
+                  fontFamily: "Lato-Bold",
+                  fontSize: 19,
+                  color: "#4a5a5a",
+                  paddingLeft: 18,
+                  marginBottom: 5,
+                  // fontWeight: "bold",
+                }}
+              >
+                Good evening
+              </Text>
+              {this.do()}
+              <View style={{ height: 160 }}>
+                <FlatList
+                  data={this.arrays}
+                  horizontal={true}
+                  renderItem={({ item, index }) => this.renderRow(item)}
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item) => item.id}
+                  style={{ flex: 1, paddingBottom: 0 }}
+                />
+              </View>
+              {/* FOR YOU */}
+              <RenderForYou props={this.props} />
+              {/* Feed  */}
+              <RenderFeed props={this.props} />
+
+              {/* Search component */}
+              {/* <Search props={this.props} /> */}
+              {/* Bottom sheet component */}
+            </View>
+          </ScrollView>
         </SafeAreaView>
         <BottomSheet
-          snapPoints={["10%", "80%"]}
+          snapPoints={[0]}
           renderContent={this.renderContent}
           renderHeader={this.renderHeader}
-          onOpenStart={this.toggleIndex}
-          onCloseEnd={this.toggleIndex}
+          // onOpenStart={this.toggleIndex}
+          // onCloseEnd={this.toggleIndex}
           enabledContentGestureInteraction={true}
         />
       </View>
