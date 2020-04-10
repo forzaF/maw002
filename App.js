@@ -5,15 +5,20 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Button, View, Text, SafeAreaView, Platform } from "react-native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+
+//Screens
 import Home from "./src/screens/home";
 import Profile from "./src/screens/profile";
 import Wallet from "./src/screens/wallet";
 import SearchForm from "./src/screens/search-form";
 import Jobs from "./src/screens/jobs";
+import Search from "./src/components/search";
 
+//Icons
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/Foundation";
 import { IconFill, IconOutline } from "@ant-design/icons-react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -112,12 +117,20 @@ function notifications() {
   );
 }
 
+function SearchScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1 }}>
+      <Search navigation={navigation} />
+    </View>
+  );
+}
+
 function App() {
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <NavigationContainer>
         <Stack.Navigator
-          // mode="modal"
+          mode="modal"
           screenOptions={{
             headerShown: false,
             backgroundColor: "#fff",
@@ -148,6 +161,7 @@ function App() {
             }}
           />
           <Stack.Screen name="Notifications" component={notifications} />
+          <Stack.Screen name="Search Screen" component={SearchScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

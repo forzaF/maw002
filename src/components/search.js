@@ -8,17 +8,54 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Animated,
+  Button,
+  SafeAreaView,
+  Keyboard,
+  SectionList,
+  Dimensions,
+  KeyboardAvoidingView,
 } from "react-native";
 // import SearchForm from "../screens/search-form";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import Ionicon from "react-native-vector-icons/Ionicons";
 import RBSheet from "react-native-raw-bottom-sheet";
 import SearchForm from "../screens/search-form";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Right } from "native-base";
+
+const WINDOW_HEIGHT = Dimensions.get("screen").height;
 
 function ModalScreen({ navigation }) {
   navigation.navigate("MyModal", {
     itemId: 86,
     otherParam: "anything you want here",
   });
+}
+
+function DismissSearch(navigation) {
+  return (
+    <TouchableOpacity
+      onPress={() => navigation.navigation.goBack()}
+      style={{
+        // flex: 1,
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        borderWidth: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",
+        zIndex: 20,
+        top: 5,
+        // right: 100,
+        // left: 100,
+        // bottom: 100,
+        // marginTop: 60,
+      }}
+    >
+      <Ionicon name="ios-close" size={38} color={"#ff6600"} />
+    </TouchableOpacity>
+  );
 }
 
 class Search extends Component {
@@ -29,16 +66,18 @@ class Search extends Component {
       activeIndex: 0,
       searchText: "",
       location: "lagos",
-      fadeValue: new Animated.Value(0),
+      quickSearchOptions: [
+        {
+          title: "Recent",
+          data: ["Photograper", "Make-up Artist", "Event Planner", "DJ"],
+        },
+        {
+          title: "Trending",
+          data: ["Electrician", "Lawyer", "Web Developer", "Digital Marketer"],
+        },
+      ],
     };
   }
-
-  _start = () => {
-    Animated.timing(this.state.fadeValue, {
-      toValue: 1,
-      duration: 500,
-    }).start();
-  };
 
   openModal = (text) => {
     this.props.props.navigation.navigate("MyModal", {
@@ -69,98 +108,165 @@ class Search extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        {/* Search box */}
-        <View
-          style={{
-            flex: 1,
-            // paddingTop: "25%",
-            // width: "100%",
-
-            alignItems: "center",
-          }}
-        >
-          <Animated.View
-            style={{
-              opacity: this.state.fadeValue,
-            }}
-          >
-            <Text style={{ color: "#5A90E6" }}>
-              We've got anyWorker you need
-            </Text>
-          </Animated.View>
-          <TextInput
-            style={styles.searchTextinput}
-            placeholder="Looking for..."
-            placeholderTextColor="#bfbfbf"
-            autoCapitalize="none"
-            onFocus={() => this._start()}
-            onEndEditing={() =>
-              this.setState({ fadeValue: new Animated.Value(0) })
-            }
-            value={this.state.searchText}
-            onChangeText={(val) => this.onChangeText("searchText", val)}
-            onSubmitEditing={() => {
-              if (this.state.searchText !== "") {
-                this.RBSheet.open();
-              } else {
-                return null;
-              }
-            }}
-          />
-          {/* Location */}
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              paddingTop: 15,
-              alignSelf: "flex-end",
-            }}
-          >
+      <View style={{ flex: 1 }}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <SafeAreaView style={styles.container}>
+            <DismissSearch
+              navigation={this.props.navigation}
+              style={{ flex: 1 }}
+            />
             <TouchableWithoutFeedback
-              transparent
-              onPress={() => this.segmentClicked(0)}
-              active={this.activeIndex == 0}
-              title="Current Location"
+              onPress={() => this.props.navigation.goBack()}
             >
               <View
                 style={{
-                  flexDirection: "row",
+                  // width: 44,
+                  // height: 44,
+                  borderRadius: 22,
+                  position: "absolute",
+                  zIndex: 5,
+                  bottom: 400,
+                  right: 13,
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <Icon name={"place"} size={22} color={"#5A90E6"} />
+                <Ionicon
+                  name="ios-close"
+                  size={38}
+                  color={"#ff6600"}
+                  style={{ margin: -15, padding: -15 }}
+                />
+
                 <Text
-                  style={[
-                    { borderRadius: 0 },
-                    { padding: 0 },
-                    { elevation: 3 },
-                    styles.locationSelected,
-                  ]}
+                  style={{
+                    fontFamily: "OpenSans-Regular",
+                    fontSize: 15,
+                    alignSelf: "flex-start",
+                    color: "#ff6600",
+                    marginTop: 2,
+                  }}
                 >
-                  Lagos
+                  Dismiss
                 </Text>
               </View>
             </TouchableWithoutFeedback>
-          </View>
-        </View>
-        <RBSheet
-          ref={(ref) => {
-            this.RBSheet = ref;
-          }}
-          height={380}
-          duration={250}
-          customStyles={{
-            container: {
-              // justifyContent: "center",
-              // alignItems: "center"
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-            },
-          }}
-          closeOnDragDown={true}
-        >
-          <SearchForm searchText={this.state.searchText} page={1} />
-        </RBSheet>
+            {/* Search box */}
+            <View
+              style={{
+                // flex: 1,
+                marginTop: 50,
+                marginHorizontal: 13,
+              }}
+            >
+              <TextInput
+                autoFocus={true}
+                style={styles.searchTextinput}
+                placeholder="Looking for..."
+                placeholderTextColor="#bfbfbf"
+                autoCapitalize="none"
+                value={this.state.searchText}
+                onChangeText={(val) => this.onChangeText("searchText", val)}
+                onSubmitEditing={() => {
+                  if (this.state.searchText !== "") {
+                    this.RBSheet.open();
+                  } else {
+                    return null;
+                  }
+                }}
+              />
+              {/* Location */}
+              <View
+                style={{
+                  // flex: 1,
+                  flexDirection: "row",
+                  paddingTop: 15,
+                  alignSelf: "flex-end",
+                }}
+              >
+                <TouchableWithoutFeedback
+                  transparent
+                  onPress={() => this.segmentClicked(0)}
+                  active={this.activeIndex == 0}
+                  title="Current Location"
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                    }}
+                  >
+                    <Icon name={"place"} size={22} color={"#0176C6"} />
+                    <Text
+                      style={[
+                        { borderRadius: 0 },
+                        { padding: 0 },
+                        { elevation: 3 },
+                        styles.locationSelected,
+                      ]}
+                    >
+                      Lagos
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
+            </View>
+            {/* recents and trending */}
+            <View style={{ marginHorizontal: 18 }}>
+              <SectionList
+                scrollEnabled={false}
+                sections={this.state.quickSearchOptions}
+                keyExtractor={(item, index) => item + index}
+                renderItem={({ item }) => (
+                  <TouchableOpacity>
+                    <Text
+                      style={{
+                        fontFamily: "OpenSans-Regular",
+                        fontSize: 17,
+                        color: "#4a4a4a",
+                        marginVertical: 7,
+                      }}
+                    >
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+                renderSectionHeader={({ section: { title } }) => (
+                  <Text
+                    style={{
+                      fontFamily: "Lato-Bold",
+                      fontSize: 17,
+                      color: "#4a4a4a",
+                      marginBottom: 10,
+                      marginTop: 18,
+                    }}
+                  >
+                    {title}
+                  </Text>
+                )}
+              />
+            </View>
+
+            {/* SEARCH FORM */}
+            <RBSheet
+              ref={(ref) => {
+                this.RBSheet = ref;
+              }}
+              height={380}
+              duration={250}
+              customStyles={{
+                container: {
+                  // justifyContent: "center",
+                  // alignItems: "center"
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                },
+              }}
+              closeOnDragDown={true}
+            >
+              <SearchForm searchText={this.state.searchText} page={1} />
+            </RBSheet>
+          </SafeAreaView>
+        </TouchableWithoutFeedback>
       </View>
     );
   }
@@ -171,8 +277,10 @@ export default Search;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 18,
+    // marginHorizontal: 18,
     backgroundColor: "#fff",
+    // height: WINDOW_HEIGHT - 150,
+    position: "relative",
   },
   searchTextinput: {
     width: "100%",
@@ -180,7 +288,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: 25,
     fontWeight: "bold",
-    fontFamily: "helvetica",
+    fontFamily: "Lato-Bold",
     paddingLeft: 10,
     paddingBottom: 5,
     color: "#4d4d4d",
