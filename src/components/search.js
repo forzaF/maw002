@@ -141,7 +141,7 @@ class Search extends Component {
                 <Text
                   style={{
                     fontFamily: "OpenSans-Regular",
-                    fontSize: 15,
+                    fontSize: 13,
                     alignSelf: "flex-start",
                     color: "#ff6600",
                     marginTop: 2,
@@ -251,7 +251,7 @@ class Search extends Component {
               ref={(ref) => {
                 this.RBSheet = ref;
               }}
-              height={380}
+              height={550}
               duration={250}
               customStyles={{
                 container: {
@@ -261,7 +261,7 @@ class Search extends Component {
                   borderTopRightRadius: 10,
                 },
               }}
-              closeOnDragDown={true}
+              closeOnDragDown={false}
             >
               <SearchForm searchText={this.state.searchText} page={1} />
             </RBSheet>

@@ -130,7 +130,7 @@ function App() {
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <NavigationContainer>
         <Stack.Navigator
-          mode="modal"
+          // mode="modal"
           screenOptions={{
             headerShown: false,
             backgroundColor: "#fff",

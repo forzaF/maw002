@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
   View,
   Text,
@@ -9,42 +9,49 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
-  Animated
+  Animated,
+  Platform,
 } from "react-native";
+import moment from "moment";
 
 import { createStackNavigator } from "@react-navigation/stack";
+
+import Icon from "react-native-vector-icons/MaterialIcons";
+import Ionicon from "react-native-vector-icons/Ionicons";
+
+import DateTimePicker from "@react-native-community/datetimepicker";
+
+import { SEARCH_DATA } from "../components/dev/data";
 
 let WIDTH = Dimensions.get("window").width;
 let HEIGHT = Dimensions.get("window").height;
 
-import Icon from "react-native-vector-icons/MaterialIcons";
+const postJobForm = createStackNavigator();
 
-import { SEARCH_DATA } from "../components/dev/data";
+function PostedJob(navigation) {
+  return (
+    <View>
+      <Text>Posted Job Here</Text>
+    </View>
+  );
+}
 
-const searchFormNavigator = createStackNavigator();
-
-function NavigateSearchForm(searchText) {
+function PostJobForm(searchText) {
   return (
     <View
       style={{
-        flex: 1
+        flex: 1,
       }}
     >
-      <searchFormNavigator.Navigator headerMode="none" style={{ flex: 1 }}>
-        <searchFormNavigator.Screen
+      <postJobForm.Navigator headerMode="none" style={{ flex: 1 }}>
+        <postJobForm.Screen
           name="Skills"
           component={Skills}
           initialParams={{ searchQuery: searchText.searchText }}
         />
-        <searchFormNavigator.Screen
-          name="JobDuration"
-          component={JobDuration}
-        />
-        <searchFormNavigator.Screen
-          name="MoreDetails"
-          component={MoreDetails}
-        />
-      </searchFormNavigator.Navigator>
+        <postJobForm.Screen name="JobDuration" component={JobDuration} />
+        <postJobForm.Screen name="MoreDetails" component={MoreDetails} />
+      </postJobForm.Navigator>
     </View>
   );
 }
@@ -55,13 +62,13 @@ export function Item({ id, title, selected, onSelect }) {
       onPress={() => onSelect(id)}
       style={[
         styles.item,
-        selected ? styles.itemSelected : styles.itemUnselected
+        selected ? styles.itemSelected : styles.itemUnselected,
       ]}
     >
       <Text
         style={[
           styles.title,
-          selected ? styles.titleSelected : styles.titleUnselected
+          selected ? styles.titleSelected : styles.titleUnselected,
         ]}
       >
         {title}
@@ -74,7 +81,7 @@ export function RenderAvailableSkills(props) {
   const [selected, setSelected] = React.useState(new Map());
 
   const onSelect = React.useCallback(
-    id => {
+    (id) => {
       const newSelected = new Map(selected);
       newSelected.set(id, !selected.get(id));
 
@@ -114,18 +121,18 @@ export function RenderAvailableSkills(props) {
 }
 
 // SEARCHFORM CONTROLS
-function FormHeader(props) {
+function FormHeader() {
   return (
     <View
       style={{
         // alignSelf: "flex-end",
         marginBottom: 15,
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
       }}
     >
       <Icon
-        name={props.props.iconName}
+        name={"star"}
         size={22}
         color={"#78A0E9"}
         style={{ alignSelf: "center" }}
@@ -134,10 +141,10 @@ function FormHeader(props) {
         style={{
           fontSize: 20,
           fontWeight: "bold",
-          color: "#5f6f5f"
+          color: "#5f6f5f",
         }}
       >
-        {props.props.pageNumber}/3
+        1/3
       </Text>
     </View>
   );
@@ -162,7 +169,7 @@ function FormButtonNext(props) {
         justifyContent: "space-between",
         borderRadius: 10,
         marginRight: 5,
-        flexDirection: "row"
+        flexDirection: "row",
       }}
     >
       <Icon
@@ -194,7 +201,7 @@ function FormButtonBack(props) {
         // justifyContent: "space-between",
         borderRadius: 10,
         marginRight: 18,
-        flexDirection: "row"
+        flexDirection: "row",
       }}
     >
       <Icon
@@ -220,31 +227,32 @@ function Skills({ route, navigation }) {
 
   return (
     <View style={{ backgroundColor: "#fff", flex: 1 }}>
-      <FormHeader props={{ iconName: iconName, pageNumber: pageNumber }} />
+      {/* <FormHeader props={{ iconName: iconName, pageNumber: pageNumber }} /> */}
       <View style={{ marginBottom: 15 }}>
-        <Text style={styles.label}>Select specific skills/qualifications</Text>
+        <Text style={styles.label}>Any specific skills or qualifications?</Text>
       </View>
-      <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
         <RenderAvailableSkills searchText={searchQuery} />
       </View>
       <View
         style={{
           alignSelf: "flex-end",
           position: "absolute",
-          marginTop: 270
-          // elevation: 3,
-          // shadowOffset: { width: 1, height: 3 },
-          // shadowColor: "#6797E7",
-          // shadowOpacity: 1,
-          // bottom: 20,
-          // right: 20
+          bottom: 30,
+          right: 10,
         }}
       >
         <FormButtonNext
           props={{
             iconName: nextIcon,
             navigation: navigation,
-            nextPage: nextPage
+            nextPage: nextPage,
           }}
         />
       </View>
@@ -254,6 +262,35 @@ function Skills({ route, navigation }) {
 
 // Job Duration - Page 2
 function JobDuration({ navigation }) {
+  // Date picker state controls
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(true);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    // setShow(!show);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
+  const showTimepicker = () => {
+    showMode("time");
+  };
+
+  const dateString = date.toLocaleString("en-US", {
+    timeZone: "Africa/Lagos",
+  });
+
+  //form navigation controls
   let pageNumber = 2;
   const backIconName = "star";
   const iconName = "event-note";
@@ -262,15 +299,85 @@ function JobDuration({ navigation }) {
 
   return (
     <View style={{ backgroundColor: "#fff", flex: 1 }}>
-      <FormHeader props={{ iconName: iconName, pageNumber: pageNumber }} />
-      <View style={{ marginBottom: 15 }}>
-        <Text style={styles.label}>Duration</Text>
-      </View>
-      <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={{ fontSize: 77 }}>BACK</Text>
+      <View
+        style={{
+          marginBottom: 15,
+          // flexDirection: "row",
+          // justifyContent: "space-between",
+        }}
+      >
+        <Text style={styles.label}>When?</Text>
+        <TouchableOpacity
+          onPress={showDatepicker}
+          style={{
+            flexDirection: "row",
+            color: "#555",
+            justifyContent: "flex-end",
+            alignSelf: "flex-end",
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: "OpenSans-Bold",
+              fontSize: 22,
+              color: "#4a4a4a",
+            }}
+          >
+            {moment.utc(date).format("dddd, MMM D")} at{" "}
+            {moment.utc(date).format("h:mm A")}
+          </Text>
+          <View>{/* <Icon name={"arrow-drop-down"} size={33} /> */}</View>
+          {/* <Text>{Date()}</Text> */}
         </TouchableOpacity>
+        <View>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              timeZoneOffsetInMinutes={0}
+              value={date}
+              mode={"datetime"}
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+            />
+          )}
+        </View>
+        <View style={{ marginTop: 18 }}>
+          <Text style={styles.label}>Duration</Text>
+          <View style={{ marginTop: 10 }}>
+            <FlatList
+              data={[
+                { id: "001", duration: "< 1 day" },
+                { id: "002", duration: "1 - 5 days" },
+                { id: "003", duration: "1 - 2 weeks" },
+                { id: "004", duration: "3 - 4 weeks" },
+                { id: "005", duration: "1 - 3 months" },
+                { id: "006", duration: "> 3 months" },
+              ]}
+              renderItem={(item) => {
+                return (
+                  <View style={{ marginTop: 10 }}>
+                    <Text
+                      style={{
+                        fontFamily: "OpenSans-Bold",
+                        fontSize: 17,
+                        marginLeft: 15,
+                        color: "#4a4a4a",
+                      }}
+                    >
+                      {item.item.duration}
+                    </Text>
+                  </View>
+                );
+              }}
+              keyExtractor={(item, index) => item.id}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </View>
       </View>
+
       <View
         style={{
           flexDirection: "row",
@@ -279,20 +386,20 @@ function JobDuration({ navigation }) {
           // flex: 1
           width: "100%",
           position: "absolute",
-          marginTop: 270
+          bottom: 10,
         }}
       >
         <FormButtonBack
           props={{
             iconName: backIconName,
-            navigation: navigation
+            navigation: navigation,
           }}
         />
         <FormButtonNext
           props={{
             iconName: nextIcon,
             navigation: navigation,
-            nextPage: nextPage
+            nextPage: nextPage,
           }}
         />
       </View>
@@ -305,12 +412,45 @@ function MoreDetails({ navigation }) {
   let pageNumber = 3;
   const backIconName = "event-note";
   const iconName = "note-add";
+  const handleClick = () => {
+    navigation.navigate("Home");
+  };
   return (
-    <View style={{ backgroundColor: "#fff", flex: 1 }}>
-      <FormHeader props={{ iconName: iconName, pageNumber: pageNumber }} />
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={{ fontSize: 77 }}>BACK</Text>
-      </TouchableOpacity>
+    <View
+      style={{ backgroundColor: "#fff", flex: 1 }}
+      keyboardDismissMode="on-drag"
+      keyboardShouldPersistTaps={"always"}
+    >
+      <TextInput
+        autoFocus={true}
+        style={{
+          fontFamily: "OpenSans-Bold",
+          fontSize: 22,
+          borderBottomWidth: StyleSheet.hairlineWidth,
+          borderColor: "#ccc",
+          padding: 5,
+        }}
+        placeholder="Title your project"
+        placeholderTextColor="#666"
+      />
+      {/* additional details */}
+      <TextInput
+        numberOfLines={25}
+        multiline={true}
+        textAlignVertical={"top"}
+        placeholder="additional details"
+        placeholderTextColor="#666"
+        style={{
+          // flex: 1,
+          borderBottomWidth: 1,
+          borderColor: "#ccc",
+          height: 250,
+          fontFamily: "OpenSans-Regular",
+          fontSize: 18,
+          paddingTop: 10,
+          marginLeft: 5,
+        }}
+      />
       <View
         style={{
           flexDirection: "row",
@@ -319,16 +459,16 @@ function MoreDetails({ navigation }) {
           // flex: 1
           width: "100%",
           position: "absolute",
-          marginTop: 250
+          bottom: 90,
         }}
       >
         <FormButtonBack
           props={{
             iconName: backIconName,
-            navigation: navigation
+            navigation: navigation,
           }}
         />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleClick}>
           <Text style={{ fontSize: 22 }}>POST JOB</Text>
         </TouchableOpacity>
       </View>
@@ -341,62 +481,17 @@ class SearchForm extends Component {
     super(props);
 
     this.state = {
-      page: 1
+      page: 1,
     };
   }
 
   searchText = this.props.searchText.toLowerCase().trim();
-  location = this.props.location;
-
-  searchData = SEARCH_DATA;
-
-  // renderFormInParts = () => {
-  //   if (this.state.page === 1) {
-  //     return (
-  //       <View>
-  //         <View style={{ marginTop: 30, marginBottom: 20 }}>
-  //           <Text style={styles.label}>
-  //             Select specific skills/qualifications
-  //           </Text>
-  //         </View>
-  //         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-  //           <RenderAvailableSkills searchText={this.searchText} />
-  //         </View>
-  //         <TouchableOpacity onPress={this.moveToNextPage}>
-  //           <Text>next---></Text>
-  //         </TouchableOpacity>
-  //       </View>
-  //     );
-  //   } else if (this.state.page == 2) {
-  //     return (
-  //       <View>
-  //         <Text>{this.state.page}</Text>
-  //         <TouchableOpacity onPress={this.moveToPrevPage}>
-  //           <Text style={{ fontSize: 77 }}>BACK</Text>
-  //         </TouchableOpacity>
-  //       </View>
-  //     );
-  //   }
-  // };
-
-  moveToNextPage = () => {
-    this.setState(prevState => ({
-      page: prevState.page + 1
-    }));
-  };
-
-  moveToPrevPage = () => {
-    this.setState(prevState => ({
-      page: prevState.page - 1
-    }));
-  };
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        {/* Render available skills for Type Worker searched for in "selectable tags" form */}
-        {/* {this.renderFormInParts()} */}
-        <NavigateSearchForm searchText={this.searchText} />
+        <FormHeader />
+        <PostJobForm searchText={this.searchText} />
       </SafeAreaView>
     );
   }
@@ -407,7 +502,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    marginHorizontal: 18
+    marginHorizontal: 18,
+    marginTop: 18,
   },
   textInput: {
     fontSize: 25,
@@ -415,7 +511,7 @@ const styles = StyleSheet.create({
     fontFamily: "helvetica",
     paddingLeft: 10,
     paddingBottom: 5,
-    color: "#4d4d4d"
+    color: "#4d4d4d",
   },
   item: {
     paddingVertical: 7,
@@ -426,22 +522,24 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "column",
     borderWidth: 1.5,
-    borderColor: "#78A0E9"
+    borderColor: "#78A0E9",
   },
   itemSelected: {
-    backgroundColor: "#78A0E9"
+    backgroundColor: "#78A0E9",
   },
   title: {
-    fontSize: 19
+    fontSize: 18,
+    fontFamily: "Roboto-Regular",
   },
   titleUnselected: {
-    color: "#6797E7"
+    color: "#6797E7",
   },
   titleSelected: {
-    color: "#fff"
+    color: "#fff",
   },
   label: {
-    fontSize: 22,
-    color: "#3F3F3F"
-  }
+    fontSize: 19,
+    color: "#4a4a4a",
+    fontFamily: "Lato-Bold",
+  },
 });
